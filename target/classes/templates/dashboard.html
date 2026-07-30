@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Dashboard</title>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+<body class="bg-light">
+
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+	<div class="container py-5">
+		<!-- Welcome Section -->
+
+		<div class="container pt-4">
+
+			<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+				<div
+					class="card-body d-flex justify-content-between align-items-center">
+
+					<div>
+
+						<h3 class="fw-bold mb-2">
+
+							👋 Welcome, <span class="text-primary" th:text="${user.name}">
+							</span>!
+
+						</h3>
+
+						<p class="text-muted mb-0">Here's an overview of your monthly
+							income, expenses and savings.</p>
+
+					</div>
+
+					<div>
+
+						<i class="bi bi-person-circle text-primary"
+							style="font-size: 65px;"> </i>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- Statistics -->
+
+		<div class="row g-4">
+
+			<!-- Transactions -->
+
+			<div class="col-lg-3 col-md-6">
+
+				<div class="card shadow border-0 rounded-4 text-center h-100">
+
+					<div class="card-body p-4">
+
+						<i class="bi bi-receipt-cutoff display-4 text-primary"></i>
+
+						<h5 class="mt-3">Transactions</h5>
+
+						<h2 class="fw-bold" th:text="${totalExpenses}"></h2>
+
+					</div>
+
+				</div>
+
+			</div>
+
+
+			<!-- Categories -->
+
+			<div class="col-lg-3 col-md-6">
+
+				<div class="card shadow border-0 rounded-4 text-center h-100">
+
+					<div class="card-body p-4">
+
+						<i class="bi bi-grid display-4 text-success"></i>
+
+						<h5 class="mt-3">Categories</h5>
+
+						<h2 class="fw-bold" th:text="${totalCategories}"></h2>
+
+					</div>
+
+				</div>
+
+			</div>
+
+
+			<!-- Monthly Income -->
+
+			<div class="col-lg-3 col-md-6">
+
+				<div class="card shadow border-0 rounded-4 text-center h-100">
+
+					<div class="card-body p-4">
+
+						<i class="bi bi-wallet2 display-4 text-info"></i>
+
+						<h5 class="mt-3">Monthly Income</h5>
+
+						<h2 class="fw-bold">
+
+							₹ <span th:text="${monthlyIncome}"> </span>
+
+						</h2>
+
+					</div>
+
+				</div>
+
+			</div>
+
+
+			<!-- Total Spent -->
+
+			<div class="col-lg-3 col-md-6">
+
+				<div class="card shadow border-0 rounded-4 text-center h-100">
+
+					<div class="card-body p-4">
+
+						<i class="bi bi-cash-stack display-4 text-danger"></i>
+
+						<h5 class="mt-3">Monthly Spent</h5>
+
+						<h2 class="fw-bold">
+							₹ <span th:text="${thisMonthSpent}"></span>
+						</h2>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- Second Row -->
+		<div class="row g-4 mt-4">
+
+			<!-- Monthly Savings -->
+			<div class="col-lg-6">
+
+				<div class="card shadow border-0 rounded-4 text-center h-100">
+
+					<div class="card-body p-4">
+
+						<i class="bi bi-piggy-bank display-4 text-success"></i>
+
+						<h5 class="mt-3">Monthly Savings</h5>
+
+						<h2 class="fw-bold">
+							₹ <span th:text="${savings}"></span>
+						</h2>
+
+					</div>
+
+				</div>
+
+			</div>
+
+
+			<!-- Last Month Spent -->
+			<div class="col-lg-6">
+
+				<div class="card shadow border-0 rounded-4 text-center h-100">
+
+					<div class="card-body p-4">
+
+						<i class="bi bi-calendar-minus display-4 text-secondary"></i>
+
+						<h5 class="mt-3">Last Month Spent</h5>
+
+						<h2 class="fw-bold">
+							₹ <span th:text="${lastMonthSpent}"></span>
+						</h2>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	<!-- ================= ANALYTICS ================= -->
+
+<div class="row justify-content-center g-4 mt-5">
+
+    <!-- Pie Chart -->
+    <div class="col-md-5">
+
+        <div class="card shadow border-0 rounded-4">
+
+            <div class="card-header bg-white text-center">
+                <h5 class="fw-bold mb-0">📊 Expense Distribution</h5>
+            </div>
+
+            <div class="card-body d-flex justify-content-center align-items-center"
+                 style="height:350px;">
+
+                <canvas id="expenseChart"
+                        style="max-width:300px; max-height:300px;">
+                </canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Line Chart -->
+
+    <div class="col-md-5">
+
+        <div class="card shadow border-0 rounded-4">
+
+            <div class="card-header bg-white text-center">
+                <h5 class="fw-bold mb-0">📈 Monthly Expense Trend</h5>
+            </div>
+
+            <div class="card-body d-flex justify-content-center align-items-center"
+                 style="height:350px;">
+
+                <canvas id="monthlyExpenseChart"
+                        style="max-width:300px; max-height:300px;">
+                </canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>	
+		
+
+			<!-- Recent Expenses -->
+
+			<div class="card shadow border-0 rounded-4">
+
+				<div
+					class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+
+					<h4 class="mb-0">📋 Recent Expenses</h4>
+
+					<a href="/expenses" class="btn btn-sm btn-primary"> View All </a>
+
+				</div>
+
+				<div class="card-body">
+
+					<div class="table-responsive">
+
+						<table class="table table-hover align-middle">
+
+							<thead>
+
+								<tr>
+
+									<th>Title</th>
+									<th>Category</th>
+									<th>Amount</th>
+									<th>Date</th>
+
+								</tr>
+
+							</thead>
+
+							<tbody>
+
+								<tr th:each="expense : ${expenses}">
+
+									<td th:text="${expense.title}"></td>
+
+									<td><span class="badge bg-primary"
+										th:text="${expense.category.name}"> </span></td>
+
+									<td class="fw-bold text-danger">₹ <span
+										th:text="${expense.amount}"></span>
+									</td>
+
+									<td th:text="${expense.date}"></td>
+
+								</tr>
+
+							</tbody>
+
+						</table>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+	<script th:inline="javascript">
+
+/* ===========================
+   PIE CHART
+=========================== */
+
+const chartData = /*[[${chartData}]]*/ [];
+
+const pieLabels = [];
+const pieAmounts = [];
+
+chartData.forEach(item => {
+    pieLabels.push(item.category);
+    pieAmounts.push(item.total);
+});
+
+new Chart(document.getElementById("expenseChart"), {
+
+    type: "pie",
+
+    data: {
+
+        labels: pieLabels,
+
+        datasets: [{
+            data: pieAmounts,
+
+            backgroundColor: [
+                "#0d6efd",
+                "#198754",
+                "#ffc107",
+                "#dc3545",
+                "#6f42c1",
+                "#20c997",
+                "#fd7e14"
+            ]
+        }]
+    },
+
+    options: {
+
+        responsive: true,
+
+        plugins: {
+
+            legend: {
+                position: "bottom"
+            }
+
+        }
+
+    }
+
+});
+
+
+/* ===========================
+   LINE CHART
+=========================== */
+
+const monthlyData = /*[[${monthlyChartData}]]*/ [];
+
+console.log(monthlyData);
+
+
+const months = [];
+const totals = [];
+
+monthlyData.forEach(item => {
+    months.push(item.month);
+    totals.push(item.total);
+});
+
+new Chart(document.getElementById("monthlyExpenseChart"), {
+
+    type: "line",
+
+    data: {
+
+        labels: months,
+
+        datasets: [{
+
+            label: "Monthly Expenses",
+
+            data: totals,
+
+            borderColor: "#0d6efd",
+
+            backgroundColor: "rgba(13,110,253,0.2)",
+
+            fill: true,
+
+            tension: 0.4,
+
+            pointRadius: 5,
+
+            pointBackgroundColor: "#0d6efd"
+
+        }]
+    },
+
+    options: {
+
+        responsive: true,
+        maintainAspectRatio: false,
+
+        plugins: {
+
+            legend: {
+                display: true
+            }
+
+        },
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

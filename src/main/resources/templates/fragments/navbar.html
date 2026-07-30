@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm"
+		th:fragment="navbar">
+
+		<div class="container-fluid">
+
+			<!-- Logo -->
+			<a class="navbar-brand fw-bold" th:href="@{/dashboard}"> <i
+				class="bi bi-wallet2"></i> Smart Expense Tracker
+			</a>
+
+			<!-- Toggle button for mobile -->
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarContent">
+
+				<span class="navbar-toggler-icon"></span>
+
+			</button>
+
+			<!-- Navbar -->
+			<div class="collapse navbar-collapse" id="navbarContent">
+
+				<div class="ms-auto d-flex align-items-center flex-wrap gap-2">
+
+					<a class="btn btn-outline-light" th:href="@{/dashboard}"> <i
+						class="bi bi-house-door"></i> Dashboard
+					</a> <a class="btn btn-outline-light" th:href="@{/categories}"> <i
+						class="bi bi-grid"></i> Categories
+					</a> <a class="btn btn-outline-light" th:href="@{/expenses}"> <i
+						class="bi bi-cash-stack"></i> Expenses
+					</a> <a class="btn btn-outline-light" th:href="@{/income}"> <i
+						class="bi bi-cash-coin"></i> Income
+					</a> <a class="btn btn-outline-light" th:href="@{/profile}"> <i
+						class="bi bi-person-circle"></i> Profile
+					</a> <a class="btn btn-outline-light" th:href="@{/about}"> <i
+						class="bi bi-info-circle"></i> About
+					</a>
+
+					<form th:action="@{/logout}" method="post" class="m-0">
+						<button type="submit" class="btn btn-danger">
+							<i class="bi bi-box-arrow-right"></i> Logout
+						</button>
+					</form>
+
+
+
+
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</nav>
+
+</body>
+</html>
