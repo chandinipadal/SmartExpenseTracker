@@ -1,3 +1,17 @@
+<img width="1882" height="971" alt="Screenshot 2026-07-29 232430" src="https://github.com/user-attachments/assets/f58010ce-6f2e-4796-ac0b-4a18d5bd255f" />
+<img width="1920" height="1080" alt="Screenshot (160)" src="https://github.com/user-attachments/assets/6dd2c122-6a70-4dd6-b079-3a992eea0de1" />
+<img width="1872" height="965" alt="Screenshot 2026-07-30 160756" src="https://github.com/user-attachments/assets/21b64c81-b802-445a-8830-81d5803fb4dd" />
+
+
+
+
+
+
+
+
+
+
+
 # 💰 Smart Expense Tracker
 
 Smart Expense Tracker is a secure and user-friendly **Personal Finance Management Web Application** developed using **Java, Spring Boot, Spring Security, Thymeleaf, MySQL, Bootstrap, and Chart.js**.
